@@ -1036,28 +1036,38 @@ function shareArticle() {
         navigator.clipboard.writeText(url).then(() => showToast('Link copied!')).catch(() => showToast('Copy failed'));
     }
 }
-
+    
 /* ============================================================
-   NAVIGATION
+   NAVIGATION (FIXED FOR AUTO SCROLL)
    ============================================================ */
 function goHome() {
     document.getElementById('homePage').style.display = 'block';
     document.getElementById('aboutPage').classList.remove('show');
-    document.getElementById('nav').classList.remove('on');
+    document.getElementById('nav').classList.remove('on'); // Close mobile menu
     renderStats(); 
     renderTabs();
     const items = curTab === 'bookmarks' ? getBookmarkedItems() : allData[curTab];
     renderCards(items);
 }
 
+function goTab(t) { 
+    curTab = t; 
+    goHome(); 
+    
+    // Smoothly scroll to the content section so user can see the articles/PDFs
+    setTimeout(() => {
+        const mainArea = document.getElementById('mainArea');
+        if (mainArea) {
+            mainArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 100);
+}
+
 function goAbout() {
     document.getElementById('homePage').style.display = 'none';
     document.getElementById('aboutPage').classList.add('show');
-    document.getElementById('nav').classList.remove('on');
-}
-
-function toggleNav() { 
-    document.getElementById('nav').classList.toggle('on'); 
+    document.getElementById('nav').classList.remove('on'); // Close mobile menu
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of about page
 }
 
 /* ============================================================
