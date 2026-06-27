@@ -256,7 +256,7 @@ header {
     background:rgba(201,168,76,0.08); border:1px solid var(--border);
     display:flex; align-items:center; justify-content:center; font-size:1.2rem;
 }
-.card-cat { font-size:0.7rem; text-transform:uppercase; letter-spacing:2px; color:var(--gold); font-weight:700; }
+.card-cat font-size:0.7rem; text-transform:uppercase; letter-spacing:2px; color:var(--gold); font-weight:700; }
 .card-type-lbl { font-size:0.7rem; color:var(--text2); margin-top:0.1rem; }
 .card-body { padding:1.3rem 1.5rem 1.5rem; }
 .card h3 {
@@ -785,12 +785,15 @@ function refreshUI() {
         return;
     }
 
-    grid.innerHTML = items.map(item => {
+    const seen = new Set();
+    const uniq = items.filter(i => { if(seen.has(i.id)) return false; seen.add(i.id); return true; });
+
+    grid.innerHTML = uniq.map(item => {
         const type = item.type || curTab;
         const body = item.body || '';
         const bm = isBookmarked(item.id) ? '🔖' : '☆';
         return `
-        <div class="card" onclick="openDetail('${type}', ${item.id})">
+        <div class="card" data-id="${item.id}" data-type="${type}">
             <div class="card-head">
                 <div class="card-ico-circle">${type==='articles'?'✍️':type==='pdfs'?'📄':'📚'}</div>
                 <div>
@@ -805,12 +808,25 @@ function refreshUI() {
                     <span class="card-read">Read More <span>→</span></span>
                     <div class="card-meta">
                         <span class="card-time">${readTime(body)}</span>
-                        <button class="bookmark-btn ${isBookmarked(item.id)?'saved':''}" onclick="toggleBookmark(${item.id}, '${type}', event)">${bm}</button>
+                        <button class="bookmark-btn ${isBookmarked(item.id)?'saved':''}" data-bm-id="${item.id}" data-bm-type="${type}">${bm}</button>
                     </div>
                 </div>
             </div>
         </div>`;
     }).join('');
+
+    grid.onclick = function(e) {
+        const bBtn = e.target.closest('.bookmark-btn');
+        if (bBtn) {
+            e.stopPropagation();
+            toggleBookmark(parseInt(bBtn.getAttribute('data-bm-id')), bBtn.getAttribute('data-bm-type'));
+            return;
+        }
+        const card = e.target.closest('.card');
+        if (card) {
+            openDetail(card.getAttribute('data-type'), parseInt(card.getAttribute('data-id')));
+        }
+    };
 }
 
 function setTab(t) { curTab = t; document.getElementById('searchInput').value=''; refreshUI(); }
@@ -825,7 +841,7 @@ function renderFilteredCards(items) {
     grid.innerHTML = items.map(item => {
         const type = item.type || curTab;
         return `
-        <div class="card" onclick="openDetail('${type}', ${item.id})">
+        <div class="card" data-id="${item.id}" data-type="${type}">
             <div class="card-body">
                 <h3>${safe(item.title)}</h3>
                 <p class="card-snip">${safe((item.body||'').substring(0,110))}...</p>
@@ -841,6 +857,7 @@ function openDetail(type, id) {
     document.getElementById('dpTitle').textContent = item.title || '';
     document.getElementById('dpText').textContent = item.body || '';
     document.getElementById('detailPage').classList.add('show');
+    window.scrollTo({top:0});
 }
 function closeDetail() { document.getElementById('detailPage').classList.remove('show'); }
 
@@ -905,6 +922,13 @@ function delItem(type, id) {
     allData[type] = allData[type].filter(i => i.id !== id);
     saveData(); renderAdmin();
 }
+
+function shareArticle() {
+    navigator.clipboard.writeText(window.location.href);
+    showToast('Link copied to clipboard!');
+}
+
+function addTag(e) { if(e.key === 'Enter') e.preventDefault(); }
 
 // Initial Boot up
 refreshUI();
