@@ -1050,24 +1050,47 @@ function goHome() {
     renderCards(items);
 }
 
+function toggleNav() {
+    const navMenu = document.getElementById('nav');
+    if (navMenu) {
+        // Agar pehle se class 'on' hai to remove karega, nahi to add karega
+        if (navMenu.classList.contains('on')) {
+            navMenu.classList.remove('on');
+        } else {
+            navMenu.classList.add('on');
+        }
+    }
+}
+
 function goTab(t) { 
     curTab = t; 
     goHome(); 
     
-    // Smoothly scroll to the content section so user can see the articles/PDFs
+    // Mobile menu ko band karne ke liye class remove kareen
+    const navMenu = document.getElementById('nav');
+    if (navMenu) {
+        navMenu.classList.remove('on');
+    }
+    
+    // Smoothly scroll down to content section
     setTimeout(() => {
         const mainArea = document.getElementById('mainArea');
         if (mainArea) {
             mainArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }, 100);
+    }, 150);
 }
 
 function goAbout() {
     document.getElementById('homePage').style.display = 'none';
     document.getElementById('aboutPage').classList.add('show');
-    document.getElementById('nav').classList.remove('on'); // Close mobile menu
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of about page
+    
+    // About page par jane ke baad bhi menu band ho jana chahiye
+    const navMenu = document.getElementById('nav');
+    if (navMenu) {
+        navMenu.classList.remove('on');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /* ============================================================
