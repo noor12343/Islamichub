@@ -6,16 +6,18 @@
     <title>Islamic World — Knowledge Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
+    <!-- FIREBASE MODULAR (v12) SDK INTEGRATION WITH YOUR DATABASE URL -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
-        // Your web app's Firebase configuration
+        // Your web app's Firebase configuration (URL added here)
         const firebaseConfig = {
             apiKey: "AIzaSyBdCYNGSEGt6mT4C_KmVh_t2m_oSTLQLsg",
             authDomain: "islamic-hub-d49a6.firebaseapp.com",
             projectId: "islamic-hub-d49a6",
+            databaseURL: "https://islamic-hub-d49a6-default-rtdb.firebaseio.com/",
             storageBucket: "islamic-hub-d49a6.firebasestorage.app",
             messagingSenderId: "1014299625527",
             appId: "1:1014299625527:web:04e9bc07ff20573a6c17b2",
@@ -334,7 +336,7 @@ footer {
 .footer-col a { display:block; color:var(--text2); margin-bottom:0.55rem; font-size:0.85rem; transition:color 0.3s; cursor:pointer; text-decoration:none; }
 .footer-col a:hover { color:var(--gold2); }
 .footer-bot { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; color:var(--text2); font-size:0.82rem; }
-.footer-bas { font-family:'Amiri',serif; color:var(--gold); font-size:1.3rem; }
+.footer-bas font-family:'Amiri',serif; color:var(--gold); font-size:1.3rem; }
 
 /* ============================================================
    DETAIL PAGE
@@ -557,12 +559,16 @@ footer {
 </head>
 <body>
 
+<!-- LOADER -->
 <div class="loader" id="loader"></div>
 
+<!-- BACK TO TOP -->
 <button id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
+<!-- SHARE TOAST -->
 <div class="toast" id="toast">Link copied!</div>
 
+<!-- HEADER -->
 <header>
     <div class="hd">
         <a class="logo" onclick="goHome()">
@@ -586,6 +592,7 @@ footer {
     </div>
 </header>
 
+<!-- HOME PAGE -->
 <div id="homePage">
     <section class="hero">
         <div class="hero-pattern"></div>
@@ -646,6 +653,7 @@ footer {
     </footer>
 </div>
 
+<!-- ABOUT PAGE -->
 <div id="aboutPage">
     <div class="about-body">
         <h1 style="font-family:'Playfair Display',serif;color:var(--gold2);font-size:2.6rem;margin-bottom:0.3rem;">About</h1>
@@ -665,6 +673,7 @@ footer {
     </footer>
 </div>
 
+<!-- DETAIL PAGE -->
 <div id="detailPage">
     <div class="read-progress" id="readProgress"></div>
     <div class="dp-nav">
@@ -687,8 +696,10 @@ footer {
     </div>
 </div>
 
+<!-- ADMIN FLOAT BUTTON -->
 <button id="adminFloat" onclick="openLogin()">🔒</button>
 
+<!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
     <div class="mbox">
         <h2>Admin Access</h2>
@@ -704,6 +715,7 @@ footer {
     </div>
 </div>
 
+<!-- ADMIN PANEL -->
 <div id="adminPanel">
     <div class="ap-head">
         <h2>Admin Panel</h2>
@@ -719,6 +731,7 @@ footer {
     </div>
 </div>
 
+<!-- FORM MODAL -->
 <div class="modal" id="formModal">
     <div class="mbox" style="max-width:500px;">
         <h2 id="formHead">Add Content</h2>
@@ -865,10 +878,9 @@ function getBookmarkedItems() {
 }
 
 /* ============================================================
-   FIREBASE (UPDATED FOR MODULAR v12)
+   FIREBASE REALTIME DATABASE HANDLERS
    ============================================================ */
 function loadData() {
-    // Agar Firebase setup abhi chal rha ho, to wait karein
     if (!window.fireDB || !window.fbRef || !window.fbOnValue) return;
 
     loading(true);
@@ -924,7 +936,6 @@ function saveLocal() {
     localStorage.setItem('iw_v4', JSON.stringify(allData));
 }
 
-// Callback execution when module script mounts Firebase
 window.initAppAfterFirebase = function() {
     loadData();
 };
@@ -965,7 +976,7 @@ function renderTabs() {
 function goTab(t) { curTab = t; goHome(); }
 
 /* ============================================================
-   CARDS — event delegation, no inline onclick with IDs
+   CARDS
    ============================================================ */
 function renderCards(items) {
     const grid = document.getElementById('cardGrid');
@@ -1006,9 +1017,8 @@ function renderCards(items) {
         </div>`;
     }).join('');
 
-    // Single event delegation listener on the grid
     grid.addEventListener('click', handleCardClick, { once: true });
-    // Re-attach because once removes it
+    
     function handleCardClick(e) {
         const bBtn = e.target.closest('.bookmark-btn');
         if (bBtn) {
@@ -1058,7 +1068,6 @@ function openDetail(type, id) {
     dp.scrollTop = 0;
     window.scrollTo(0,0);
 
-    // Reading progress
     dp.addEventListener('scroll', updateReadProgress);
 }
 
@@ -1150,7 +1159,6 @@ function renderAdmin() {
     document.getElementById('apPdfs').innerHTML = adminRows(allData.pdfs, 'pdfs');
     document.getElementById('apBooks').innerHTML = adminRows(allData.books, 'books');
 
-    // Event delegation for admin rows
     ['apArticles','apPdfs','apBooks'].forEach(pid => {
         const el = document.getElementById(pid);
         el.addEventListener('click', function(e) {
