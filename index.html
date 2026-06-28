@@ -103,29 +103,35 @@ header {
 }
 .logo { display:flex; align-items:center; gap:13px; cursor:pointer; }
 .logo-emblem {
-    width: 54px !important;    /* Size force karne ke liye */
-    height: 54px !important;   /* Size force karne ke liye */
-    min-width: 54px !important;/* Flexbox ko shrink karne se rokne ke liye */
-    min-height: 54px !important;
-    border-radius: 50% !important;
-    background: #0d1b3e !important; 
-    display: flex !important; 
-    align-items: center !important; 
-    justify-content: center !important;
-    font-size: 20px !important; /* Text size thoda sa kam kiya takay bilkul andar fit rahe */
-    color: var(--gold2) !important;  
-    line-height: 1 !important;
-    border: 2px solid var(--gold) !important; 
-    animation: glow 2s ease-in-out infinite !important; 
-    flex-shrink: 0 !important;
-    z-index: 210 !important; 
+    /* Background aur Circle properties hatai ja rahi hain */
+    background: none !important; 
+    border: none !important; 
+    border-radius: 0 !important; 
+    box-shadow: none !important; 
+
+    /* Text properties ko clean aur central rakhen */
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 26px !important; /* Circle hatne par text thoda bada kar diya taqay clear dikhe */
+    color: var(--gold2);  /* Text ka rang gold hi rahega */
+    line-height: 1;
+    margin-right: 12px;
+    flex-shrink: 0;
+
+    /* NAYI ROTATION ANIMATION (GOL GHUMNEY WALI) */
+    animation: rotateSpin 4s linear infinite; /* Aap yahan speed change kar sakte hain */
 }
 
-@keyframes glow {
-    0% { 
-        transform: scale(1); 
-        box-shadow: 0 0 5px rgba(201,168,76,0.4); 
+@keyframes rotateSpin {
+    from { 
+        transform: rotateY(0deg); /* 3D rotate takay text smooth lagay */
     }
+    to { 
+        transform: rotateY(360deg); 
+    }
+}
+
     50% { 
         transform: scale(1.05); /* Smooth pulse animation */
         box-shadow: 0 0 22px rgba(201,168,76,0.8); 
