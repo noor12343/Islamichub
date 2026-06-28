@@ -103,25 +103,26 @@ header {
 }
 .logo { display:flex; align-items:center; gap:13px; cursor:pointer; }
 .logo-emblem {
-    /* Background aur Circle properties hatai ja rahi hain */
     background: none !important; 
     border: none !important; 
     border-radius: 0 !important; 
     box-shadow: none !important; 
 
-    /* Text properties ko clean aur central rakhen */
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    font-size: 26px !important; /* Circle hatne par text thoda bada kar diya taqay clear dikhe */
-    color: var(--gold2);  /* Text ka rang gold hi rahega */
-    line-height: 1;
-    margin-right: 12px;
-    flex-shrink: 0;
-
-    /* NAYI ROTATION ANIMATION (GOL GHUMNEY WALI) */
-    animation: rotateSpin 4s linear infinite; /* Aap yahan speed change kar sakte hain */
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important;
+    
+    /* SIZE CORRECTION */
+    font-size: 18px !important;  /* Size chota kiya takay screen se bahar na jaye aur pyara lage */
+    
+    /* SPACING FOR MOBILE & LAPTOP */
+    margin-left: 10px !important;  /* Left screen edge se thoda fasla */
+    margin-right: 15px !important; /* "Islamic World" text se thoda fasla */
+    
+    flex-shrink: 0 !important;
+    animation: rotateSpin 4s linear infinite !important; 
 }
+
 
 @keyframes rotateSpin {
     from { 
