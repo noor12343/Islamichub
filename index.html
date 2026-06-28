@@ -103,20 +103,22 @@ header {
 }
 .logo { display:flex; align-items:center; gap:13px; cursor:pointer; }
 .logo-emblem {
-    width: 54px;        /* Circle ka size bada kar diya */
-    height: 54px;       /* Circle ka size bada kar diya */
-    border-radius: 50%;
-    background: #0d1b3e; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    font-size: 22px;    /* Size ke mutabiq text ko bhi thoda bada kiya */
-    color: var(--gold2);  
-    line-height: 1;
-    border: 2px solid var(--gold); 
-    animation: glow 2s ease-in-out infinite; 
-    flex-shrink: 0;
-    z-index: 210; 
+    width: 54px !important;    /* Size force karne ke liye */
+    height: 54px !important;   /* Size force karne ke liye */
+    min-width: 54px !important;/* Flexbox ko shrink karne se rokne ke liye */
+    min-height: 54px !important;
+    border-radius: 50% !important;
+    background: #0d1b3e !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important;
+    font-size: 20px !important; /* Text size thoda sa kam kiya takay bilkul andar fit rahe */
+    color: var(--gold2) !important;  
+    line-height: 1 !important;
+    border: 2px solid var(--gold) !important; 
+    animation: glow 2s ease-in-out infinite !important; 
+    flex-shrink: 0 !important;
+    z-index: 210 !important; 
 }
 
 @keyframes glow {
