@@ -159,7 +159,19 @@ header.scrolled .hd { height: 64px; }
     transition:all 0.3s;
 }
 .hdr-btn:hover { background:rgba(201,168,76,0.18); transform:scale(1.1); }
-.burger { display:none; font-size:1.6rem; cursor:pointer; color:var(--gold); padding: 5px; z-index: 201; }
+<div class="hd">
+    <a class="logo" onclick="goHome()">Logo</a>
+    
+    <div class="nav-controls">
+        <div class="nav-actions">
+            <button class="hdr-btn" id="themeBtn" onclick="toggleTheme()">☀️</button>
+        </div>
+        <div class="burger" onclick="toggleNav()">☰</div>
+    </div>
+    
+    <div class="nav" id="nav">...</div>
+</div>
+
 /* ============================================================
    2. HOURLY AYAT TICKER & PREMIUM HOVER HERO
    ============================================================ */
@@ -666,6 +678,23 @@ body.light .footer-brand .brand-name { color: var(--text-primary); }
     </div>
 </header>
 
+  @media (max-width: 768px) {
+    .nav-controls {
+        display: flex !important;
+        align-items: center;
+        gap: 15px;
+    }
+    .nav-actions {
+        display: block !important;
+    }
+    .hdr-btn {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
+}
+  
 <!-- Hourly Ticker Bar -->
 <div class="ayat-ticker-container" id="dailyAyatTickerSection">
     <div class="ticker-content">
